@@ -69,6 +69,13 @@ echo ""
 [ -n "${CT_PASS}" ] || err "密码不能为空"
 info "  ✓ root 密码已设置（不回显）"
 
+# 容器 IP / 网关（默认 192.168.50.3/24、192.168.50.1）
+read -p "请输入容器 IP (默认 ${CT_IP}): " CT_IP_INPUT </dev/tty
+CT_IP=${CT_IP_INPUT:-${CT_IP}}
+read -p "请输入网关 IP (默认 ${CT_GW}): " CT_GW_INPUT </dev/tty
+CT_GW=${CT_GW_INPUT:-${CT_GW}}
+info "  容器 IP: ${CT_IP}（网关 ${CT_GW}）"
+
 if pct status ${CTID} &>/dev/null; then
   warn "CT ${CTID} (${CT_NAME}) 已存在！"
   read -p "确认销毁并重建？(y/n，默认 n): " REBUILD </dev/tty
