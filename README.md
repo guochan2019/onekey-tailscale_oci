@@ -27,7 +27,7 @@ bash onekey-tailscale_oci.sh
 |---|---|---|
 | `CTID` | 102（运行时交互可改） | 容器 ID |
 | `CT_NAME` | Tailscale-Cliet | 容器名称 |
-| `CT_PASS` | 见脚本 | 容器 root 密码，按需修改 |
+| `CT_PASS` | 运行时交互输入（不回显） | 容器 root 密码 |
 | `CT_IP` | 见脚本 | 容器 IPv4（CIDR） |
 | `CT_GW` | 见脚本 | 默认网关 |
 | `TPL_REF` | `docker://tailscale/tailscale:latest` | OCI 镜像（skopeo 源，需 `docker://` 前缀） |

@@ -28,10 +28,8 @@ command -v skopeo &>/dev/null || err "未找到 skopeo（PVE 9.1+ OCI 支持依�
 # ---------- 配置 ----------
 CTID=102
 CT_NAME="Tailscale-Cliet"
-CT_PASS="yangmax118"
 CT_IP="192.168.50.3/24"
 CT_GW="192.168.50.1"
-CT_MAC="BC:24:11:35:08:BA"
 TPL_REF="docker://tailscale/tailscale:latest"
 TPL_NAME="tailscale_latest.tar"
 VZTPL_DIR="/var/lib/vz/template/cache"
@@ -65,6 +63,12 @@ CTID=${CTID_INPUT:-102}
 CONF="/etc/pve/lxc/${CTID}.conf"
 info "  容器 ID: ${CTID}"
 
+# 输入 root 密码（不回显）
+read -s -p "请输入容器 root 密码: " CT_PASS </dev/tty
+echo ""
+[ -n "${CT_PASS}" ] || err "密码不能为空"
+info "  ✓ root 密码已设置（不回显）"
+
 if pct status ${CTID} &>/dev/null; then
   warn "CT ${CTID} (${CT_NAME}) 已存在！"
   read -p "确认销毁并重建？(y/n，默认 n): " REBUILD </dev/tty
@@ -79,7 +83,7 @@ fi
 pct create ${CTID} "local:vztmpl/${TPL_NAME}" \
   --hostname "${CT_NAME}" --password "${CT_PASS}" \
   --rootfs "${ROOTFS}" --cores 1 --memory 512 --swap 0 \
-  --net0 name=eth0,bridge=lan0,hwaddr=${CT_MAC},ip=${CT_IP},gw=${CT_GW},firewall=0 \
+  --net0 name=eth0,bridge=lan0,ip=${CT_IP},gw=${CT_GW},firewall=0 \
   --unprivileged 1 --features keyctl=1,nesting=1 \
   --cmode shell --start 0
 info "  ✓ CT ${CTID} 已创建"
