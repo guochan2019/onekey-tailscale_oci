@@ -4,10 +4,12 @@
 
 ## 快速开始
 
+在 PVE 宿主（root）上执行：
+
 ```bash
-# 上传脚本到 PVE 宿主（root）
-scp onekey-tailscale_oci.sh root@<PVE-IP>:/root/
-# 运行
+# 下载脚本
+wget https://raw.githubusercontent.com/guochan2019/onekey-tailscale_oci/main/onekey-tailscale_oci.sh
+# 运行（交互：容器 ID + root 密码）
 bash onekey-tailscale_oci.sh
 ```
 
