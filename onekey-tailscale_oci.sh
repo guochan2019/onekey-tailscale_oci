@@ -107,6 +107,10 @@ info "  ✓ 已删除 unprivileged: 1（转为特权容器）"
 pct set ${CTID} --cmode shell
 info "  ✓ 控制台模式已设为 shell"
 
+# 开机自启 + 启动顺序
+pct set ${CTID} --onboot 1 --startup order=2,up=10
+info "  ✓ 已设置 onboot=1、startup order=2,up=10"
+
 # 数据目录：不存在才新建，存在即绕过（保留状态）
 if [ -d "${DATA_DIR}" ]; then
   info "  ${DATA_DIR} 已存在，保留（tailscale 状态持久化目录）"
