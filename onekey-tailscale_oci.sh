@@ -27,7 +27,7 @@ command -v skopeo &>/dev/null || err "未找到 skopeo（PVE 9.1+ OCI 支持依�
 
 # ---------- 配置 ----------
 CTID=102
-CT_NAME="Tailscale-Cliet"
+CT_NAME="OCI-Tailscale"
 CT_IP="192.168.50.3/24"
 CT_GW="192.168.50.1"
 TPL_REF="docker://tailscale/tailscale:latest"
