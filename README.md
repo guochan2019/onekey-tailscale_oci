@@ -43,9 +43,8 @@ bash onekey-tailscale_oci.sh
 3. **`/opt/tailscale` 存在即保留**：tailscale 登录状态持久化，重建容器不丢失身份。
 4. **重建后需在网关注册静态路由**（RouterOS 参考，`<CT-IP>` 替换为容器 IP）：
    ```
-   /ip/route/add dst-address=100.64.0.0/10 gateway=<CT-IP>
-   /ip/route/add dst-address=192.168.58.0/24 gateway=<CT-IP>
-   /ip/route/add dst-address=192.168.66.0/24 gateway=<CT-IP>
+   /ip/route/add dst-address=100.64.0.0/10 gateway=<CT-IP>   # tailnet 全段
+   /ip/route/add dst-address=<LAN-CIDR> gateway=<CT-IP>      # 需路由的内网段（按实际填）
    ```
 5. 容器启动后登录：`pct exec <CTID> -- tailscale up`，首次会打印授权链接。
 
