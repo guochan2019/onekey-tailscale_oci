@@ -130,7 +130,7 @@ grep -q 'lxc.mount.entry: /dev/net/tun' "${CONF}" || \
   echo 'lxc.mount.entry: /dev/net/tun dev/net/tun none bind,create=file' >> "${CONF}"
 
 # 环境变量（幂等追加）
-for kv in "TS_STATE_DIR=/var/lib/tailscale" "TS_AUTH_ONCE=true" "TS_USERSPACE=false" "TS_ACCEPT_DNS=true" "TS_EXTRA_ARGS=--exit-node="; do
+for kv in "TS_STATE_DIR=/var/lib/tailscale" "TS_AUTH_ONCE=true" "TS_USERSPACE=false" "TS_BOOT_TIMEOUT=5m" "TS_EXTRA_ARGS=--exit-node="; do
   key="${kv%%=*}"
   grep -q "lxc.environment: ${key}=" "${CONF}" || echo "lxc.environment: ${kv}" >> "${CONF}"
 done

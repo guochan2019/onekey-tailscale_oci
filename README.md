@@ -47,6 +47,8 @@ bash onekey-tailscale_oci.sh
    /ip/route/add dst-address=<LAN-CIDR> gateway=<CT-IP>      # 需路由的内网段（按实际填）
    ```
 5. 容器启动后登录：`pct exec <CTID> -- tailscale up`，首次会打印授权链接。
+6. **`TS_BOOT_TIMEOUT=5m` 必须保留**：tailscale containerboot 默认 **60s 启动硬超时**（源码：bootCtx 60s 内未完成首次 netmap 握手即退出）——宿主重启后 boot 风暴期（多 VM/CT 同时 startall，如 N5105）tailscaled 首握手可能超 60s → containerboot 自杀 → 容器停（hook.log 只见 post-stop 无 pre-stop），需手动 `pct start`。5m 消除自杀窗口，进入稳态后该超时不再生效。**2026-09-08 实机踩坑（66.253，重启后 102 自动启动 60s 整自停）。**
+7. **不再设 `TS_ACCEPT_DNS`**：无用途且有害——它让容器内 resolv.conf 被 tailscale 改写指向 MagicDNS（100.100.100.100），**容器停止后不还原**，下次启动早期所有域名解析依赖尚未就绪的 MagicDNS。需要 tailnet DNS 的场景在容器内自行配置。
 
 ## 验证
 
